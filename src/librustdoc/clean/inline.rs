@@ -351,7 +351,10 @@ crate fn build_impl(
             }
 
             if let Some(stab) = tcx.lookup_stability(did) {
-                if stab.level.is_unstable() && stab.feature == sym::rustc_private {
+                if stab.level.is_unstable()
+                    && stab.feature == sym::rustc_private
+                    && !tcx.sess.opts.debugging_opts.force_unstable_if_unmarked
+                {
                     return;
                 }
             }
